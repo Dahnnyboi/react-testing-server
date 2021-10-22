@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "rootDir": "./",
+    "outDir": "build",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,  
+    
+    "baseUrl": "./src",
+    "typeRoots": ["./src/typings", "./node_modules/@types"],
+    "paths": {
+      "@configs/*": ["configs/*"],
+      "@loaders": ["loaders/index"],
+      "@loaders/*": ["loaders/*"],
+      "@utils/*": ["utils/*"],
+      "@models/*": ["models/*"],
+      "@services/*": ["services/*"],
+      "@routes": ["routes/index"],
+      "@middlewares/*": ["middlewares/*"]
+    },
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    // "types": [],
+  },
+  "ts-node": {
+    "files": true
+  },
+  "include": ["src/**/*", "index.ts"],
+  "exclude": ["node_modules", "dist"],
+}
