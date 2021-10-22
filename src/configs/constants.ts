@@ -1,6 +1,5 @@
 import { IS_DEVELOPMENT } from './environment';
 
-export const PORT = 4000;
 export const ENVIRONMENT = IS_DEVELOPMENT
   ? 'development'
   : 'production';

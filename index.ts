@@ -1,9 +1,10 @@
-import "reflect-metadata";
+import 'reflect-metadata';
 
-import express from "express";
-import { PORT, ENVIRONMENT } from "@configs/constants";
-import Loaders from "@loaders";
-import Logger from "@utils/logger";
+import express from 'express';
+import { ENVIRONMENT } from '@configs/constants';
+import { PORT } from '@configs/environment';
+import Loaders from '@loaders';
+import Logger from '@utils/logger';
 
 async function startServer() {
   const app = express();

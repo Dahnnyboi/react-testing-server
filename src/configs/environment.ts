@@ -16,5 +16,6 @@ export const DATABASE_USER = IS_DEVELOPMENT
 export const DATABASE_PASSWORD = IS_DEVELOPMENT
   ? 'password'
   : process.env.DATABASE_PASSWORD;
+export const PORT = process.env.PORT || '4000';
 
 export const JWT_SECRET = process.env.JWT_PRIVATE_KEY || 'jwt_secret';
