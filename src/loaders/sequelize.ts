@@ -18,6 +18,7 @@ const sequelize = new Sequelize(
         rejectUnauthorized: false,
       },
     },
+    port: 5432,
     host: DATABASE_HOST || 'localhost',
     query: { raw: true },
     pool: {
