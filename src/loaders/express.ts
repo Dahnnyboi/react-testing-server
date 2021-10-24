@@ -14,6 +14,13 @@ import UserService from '@services/user.service';
 import passport from 'passport';
 import * as passportLocal from 'passport-local';
 import Logger from '@utils/logger';
+import cors from 'cors';
+
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200,
+  credentials: true,
+};
 
 const LocalStrategy = passportLocal.Strategy;
 
@@ -64,6 +71,7 @@ export default (app: Application): void => {
   app.use(limiter);
   app.use(cookieParser());
   app.use(passport.initialize());
+  app.use(cors(corsOptions));
 
   app.use(API_PREFIX, routes());
 
