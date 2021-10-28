@@ -4,6 +4,7 @@ import {
   DATABASE_NAME,
   DATABASE_USER,
   DATABASE_PASSWORD,
+  IS_DEVELOPMENT,
 } from '@configs/environment';
 
 const sequelize = new Sequelize(
@@ -13,7 +14,7 @@ const sequelize = new Sequelize(
   {
     dialect: 'postgres',
     dialectOptions: {
-      ssl: {
+      ssl: !IS_DEVELOPMENT && {
         require: true,
         rejectUnauthorized: false,
       },
