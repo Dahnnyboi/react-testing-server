@@ -73,6 +73,15 @@ export default (app: Application): void => {
   app.use(passport.initialize());
   app.use(cors(corsOptions));
 
+  app.use((req, res, next) => {
+    res.header('Content-Type', 'application/json;charset=UTF-8');
+    res.header(
+      'Access-Control-Allow-Headers',
+      'Origin, X-Requested-With, Content-Type, Accept',
+    );
+    next();
+  });
+
   app.use(API_PREFIX, routes());
 
   app.use(API_PREFIX, (req: Request, res: Response) => {
