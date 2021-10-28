@@ -27,7 +27,6 @@ export default (app: Router): void => {
       // naming should be the same with the frontend
       res.cookie(AUTH_COOKIE_KEY, token, {
         httpOnly: false,
-        secure: true,
       });
       res.status(200).json({ data: { ...req.user[0] } });
     },
@@ -39,7 +38,6 @@ export default (app: Router): void => {
     (req: Request, res: Response) => {
       res.clearCookie(AUTH_COOKIE_KEY, {
         httpOnly: false,
-        secure: true,
       });
       res.status(200).json({ message: 'Successfully logout' });
     },
