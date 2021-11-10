@@ -3,7 +3,23 @@ import { DataTypes, Model, UUIDV4 } from 'sequelize';
 import sequelizeInstance from '@loaders/sequelize';
 
 @Service()
-class UserModel extends Model {}
+class UserModel extends Model {
+  public userId!: string;
+
+  public firstName!: string;
+
+  public lastName!: string;
+
+  public email!: string;
+
+  public salt!: string;
+
+  public password!: string;
+
+  public readonly createdAt!: Date;
+
+  public readonly updatedAt!: Date;
+}
 
 UserModel.init(
   {

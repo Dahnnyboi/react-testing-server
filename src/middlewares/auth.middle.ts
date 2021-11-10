@@ -1,12 +1,20 @@
 import { Request, Response, NextFunction } from 'express';
 import expressJwt from 'express-jwt';
 import { JWT_SECRET } from '@configs/environment';
-import { JWT_ALGORITHM, AUTH_COOKIE_KEY } from '@configs/constants';
+import { JWT_ALGORITHM } from '@configs/constants';
 import Logger from '@utils/logger';
 
-function getTokenFromCookie(req: Request) {
-  if (req.cookies[AUTH_COOKIE_KEY])
-    return req.cookies[AUTH_COOKIE_KEY];
+// function getTokenFromCookie(req: Request) {
+//   if (req.cookies[AUTH_COOKIE_KEY])
+//     return req.cookies[AUTH_COOKIE_KEY];
+
+//   return null;
+// }
+function getTokenFromHeader(req: Request) {
+  if (req.headers.authorization) {
+    // bearer tokenName
+    return req.headers.authorization.split(' ')[1];
+  }
 
   return null;
 }
@@ -14,7 +22,7 @@ function getTokenFromCookie(req: Request) {
 export const authRequired = expressJwt({
   secret: JWT_SECRET,
   userProperty: 'payload',
-  getToken: getTokenFromCookie,
+  getToken: getTokenFromHeader,
   algorithms: [JWT_ALGORITHM],
 });
 

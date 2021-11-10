@@ -2,7 +2,6 @@ import { Container, Inject, Service } from 'typedi';
 import bcrypt from 'bcrypt';
 import { SALT_ROUNDS } from '@configs/constants';
 import UserModel from '@models/user.model';
-import { isEmpty, first } from '@utils/helpers';
 
 Container.set('userModel', UserModel);
 
@@ -35,16 +34,13 @@ class ServiceUser {
     email: string,
     password: string,
   ) {
-    const user = await this.userModel.findAll({ where: { email } });
+    const user = await this.userModel.findOne({ where: { email } });
 
-    if (isEmpty(user)) {
+    if (!user) {
       return false;
     }
 
-    const match = await bcrypt.compare(
-      password,
-      first(user).password,
-    );
+    const match = await bcrypt.compare(password, user.password);
 
     if (!match) {
       return false;
@@ -54,19 +50,15 @@ class ServiceUser {
   }
 
   public async findUserById(id: string) {
-    const user = await this.userModel.findAll({
+    const user = await this.userModel.findOne({
       where: { userId: id },
     });
 
-    if (isEmpty(user)) {
+    if (!user) {
       return false;
     }
 
-    return {
-      userId: first(user).userId,
-      name: first(user).name,
-      email: first(user).email,
-    };
+    return user;
   }
 }
 

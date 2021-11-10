@@ -19,6 +19,7 @@ class ServiceAuth {
     try {
       const token = await jwt.sign({ id }, JWT_SECRET, {
         algorithm: JWT_ALGORITHM,
+        expiresIn: '1h',
       });
 
       return token;

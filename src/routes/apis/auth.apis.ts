@@ -1,8 +1,9 @@
 import { Request, Response, Router } from 'express';
 import passport from 'passport';
+import UserService from '@services/user.service';
 import AuthService from '@services/auth.service';
-import { authRequired } from '@middlewares/auth.middle';
-import { AUTH_COOKIE_KEY } from '@configs/constants';
+import { authRequired, checkPayload } from '@middlewares/auth.middle';
+// import { AUTH_COOKIE_KEY } from '@configs/constants';
 
 const route = Router();
 
@@ -13,23 +14,35 @@ export default (app: Router): void => {
     '/login',
     passport.authenticate('local'),
     async (req: Request, res: Response) => {
-      if (!req.user[0])
+      if (!req.user)
         res.status(400).json({ message: 'Cannot find user' });
 
-      const token = await AuthService.createToken(
-        req?.user[0].userId,
-      );
+      const token = await AuthService.createToken(req?.user.userId);
 
       if (!token) {
         res.status(500).json({ message: 'Failed to sign token' });
       }
 
       // naming should be the same with the frontend
-      res.cookie(AUTH_COOKIE_KEY, token, {
-        httpOnly: false,
-        secure: false,
-      });
-      res.status(200).json({ data: { ...req.user[0] } });
+      // res.cookie(AUTH_COOKIE_KEY, token, {
+      //   httpOnly: false,
+      //   secure: false,
+      // });
+      res.status(200).json({ data: { ...req.user, token } });
+    },
+  );
+
+  route.get(
+    '/refresh',
+    authRequired,
+    checkPayload,
+    async (req: Request, res: Response) => {
+      if (!req.payload.id)
+        res.status(400).json({ message: 'Failed to refresh token' });
+
+      const user = await UserService.findUserById(req.payload.id);
+      const token = await AuthService.createToken(req.payload.id);
+      res.status(200).json({ data: { ...user, token } });
     },
   );
 
@@ -37,10 +50,10 @@ export default (app: Router): void => {
     '/logout',
     authRequired,
     (req: Request, res: Response) => {
-      res.clearCookie(AUTH_COOKIE_KEY, {
-        httpOnly: false,
-        secure: false,
-      });
+      // res.clearCookie(AUTH_COOKIE_KEY, {
+      //   httpOnly: false,
+      //   secure: false,
+      // });
       res.status(200).json({ message: 'Successfully logout' });
     },
   );

@@ -1,7 +1,7 @@
 declare namespace Express {
   interface Request {
     user: {
-      [index: number]: { userId: string };
+      userId: string;
     };
     payload: {
       id: string;
