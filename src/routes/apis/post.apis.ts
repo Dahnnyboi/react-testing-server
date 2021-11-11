@@ -63,7 +63,7 @@ export default (app: Router): void => {
       const { id: userId } = req.payload;
       const { search, limit, offset, orderBy, order } = req.query;
       try {
-        const posts = await PostService.retrieveMultiplePost(
+        const { data, meta } = await PostService.retrieveMultiplePost(
           userId,
           search,
           limit,
@@ -72,7 +72,10 @@ export default (app: Router): void => {
           order,
         );
 
-        res.status(200).json({ data: posts });
+        res.status(200).json({
+          data,
+          meta,
+        });
       } catch (e) {
         Logger.error(e);
         next(e);

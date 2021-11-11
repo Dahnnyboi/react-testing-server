@@ -40,12 +40,25 @@ class ServicePost {
       page = limit * offset;
     }
 
-    return this.postModel.findAll({
+    const data = await this.postModel.findAll({
       limit: limit || 20,
       offset: page,
       where: whereOption,
       order: [[orderBy || 'createdAt', order || 'ASC']],
     });
+
+    const count = await this.postModel.count({ where: whereOption });
+
+    const meta = {
+      totalPages: Math.ceil(count / (Number(limit) || 20)),
+      totalRows: count,
+      limit: limit || 20,
+      offset: offset || 0,
+      order: order || 'ASC',
+      orderBy: orderBy || 'createdAt',
+    };
+
+    return { data, meta };
   }
 
   public async updatePost(
