@@ -44,7 +44,7 @@ class ServicePost {
       limit: limit || 20,
       offset: page,
       where: whereOption,
-      order: [[orderBy || 'createdAt', order || 'ASC']],
+      order: [[orderBy || 'createdAt', order || 'DESC']],
     });
 
     const count = await this.postModel.count({ where: whereOption });
@@ -54,7 +54,7 @@ class ServicePost {
       totalRows: count,
       limit: limit || 20,
       offset: offset || 0,
-      order: order || 'ASC',
+      order: order || 'DESC',
       orderBy: orderBy || 'createdAt',
     };
 
