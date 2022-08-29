@@ -7,6 +7,13 @@ import {
   IS_DEVELOPMENT,
 } from '@configs/environment';
 
+const SSLOptions: boolean | SSLOPTIONTYPE = IS_DEVELOPMENT
+  ? false
+  : {
+      require: true,
+      rejectUnauthorized: false,
+    };
+
 const sequelize = new Sequelize(
   DATABASE_NAME || 'testing',
   DATABASE_USER || 'postgres',
@@ -14,10 +21,7 @@ const sequelize = new Sequelize(
   {
     dialect: 'postgres',
     dialectOptions: {
-      ssl: !IS_DEVELOPMENT && {
-        require: true,
-        rejectUnauthorized: false,
-      },
+      ssl: SSLOptions,
     },
     port: 5432,
     host: DATABASE_HOST || 'localhost',

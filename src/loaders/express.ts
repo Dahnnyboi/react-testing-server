@@ -109,9 +109,7 @@ export default (app: Application): void => {
     (err: Error, req: Request, res: Response, next: NextFunction) => {
       res.status(500);
       res.json({
-        errors: {
-          message: err.message,
-        },
+        message: err.message,
       });
     },
   );

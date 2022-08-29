@@ -49,6 +49,21 @@ class ServiceUser {
     return user;
   }
 
+  public async confirmUserPassword(id: string, password: string) {
+    const user = await this.userModel.findOne({
+      where: { userId: id },
+    });
+
+    if (user === null) {
+      return false;
+    }
+
+    const { password: userPassword } = user;
+
+    const match = await bcrypt.compare(password, userPassword);
+    return match;
+  }
+
   public async findUserById(id: string) {
     const user = await this.userModel.findOne({
       where: { userId: id },
@@ -59,6 +74,26 @@ class ServiceUser {
     }
 
     return user;
+  }
+
+  public async updateUserById(
+    id: string,
+    data: UserChangeableAttributes,
+  ) {
+    await this.userModel.update(
+      { ...data },
+      { where: { userId: id } },
+    );
+  }
+
+  public async updateUserPasswordById(id: string, password: string) {
+    const salt = await bcrypt.genSalt(SALT_ROUNDS);
+    const hashPassword = await bcrypt.hash(password, salt);
+
+    await this.userModel.update(
+      { password: hashPassword },
+      { where: { userId: id } },
+    );
   }
 }
 

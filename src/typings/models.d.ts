@@ -7,3 +7,10 @@ interface PostAttributes {
   readonly createdAt: Date;
   readonly updatedAt: Date;
 }
+
+interface UserChangeableAttributes {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  password?: string;
+}

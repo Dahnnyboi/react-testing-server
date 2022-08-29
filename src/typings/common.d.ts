@@ -7,3 +7,8 @@ declare type QUERYSTRING =
   | QueryString.ParsedQs
   | QueryString.ParsedQs[]
   | undefined;
+
+declare type SSLOPTIONTYPE = {
+  require: boolean;
+  rejectUnauthorized: boolean;
+};
