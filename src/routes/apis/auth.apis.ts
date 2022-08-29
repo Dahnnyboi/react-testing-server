@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express';
 import passport from 'passport';
 import UserService from '@services/user.service';
 import AuthService from '@services/auth.service';
-import { authRequired, checkPayload } from '@middlewares/auth.middle';
+import authMiddleware from '@middlewares/auth.middle';
 // import { AUTH_COOKIE_KEY } from '@configs/constants';
 
 const route = Router();
@@ -34,8 +34,7 @@ export default (app: Router): void => {
 
   route.get(
     '/refresh',
-    authRequired,
-    checkPayload,
+    authMiddleware,
     async (req: Request, res: Response) => {
       if (!req.payload.id)
         res.status(400).json({ message: 'Failed to refresh token' });
@@ -48,7 +47,7 @@ export default (app: Router): void => {
 
   route.delete(
     '/logout',
-    authRequired,
+    authMiddleware,
     (req: Request, res: Response) => {
       // res.clearCookie(AUTH_COOKIE_KEY, {
       //   httpOnly: false,

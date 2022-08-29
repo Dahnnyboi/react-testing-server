@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import UserService from '@services/user.service';
-import { authRequired, checkPayload } from '@middlewares/auth.middle';
+import authMiddleware from '@middlewares/auth.middle';
 import AuthService from '@services/auth.service';
 import Logger from '@utils/logger';
 
@@ -34,8 +34,7 @@ export default (app: Router): void => {
 
   route.put(
     '/',
-    authRequired,
-    checkPayload,
+    authMiddleware,
     async (req: Request, res: Response, next: NextFunction) => {
       const { firstName, lastName, email } = req.body;
       const { id } = req.payload;
@@ -61,8 +60,7 @@ export default (app: Router): void => {
 
   route.put(
     '/password',
-    authRequired,
-    checkPayload,
+    authMiddleware,
     async (req: Request, res: Response, next: NextFunction) => {
       const { oldPassword, newPassword, confirmPassword } = req.body;
       const { id } = req.payload;

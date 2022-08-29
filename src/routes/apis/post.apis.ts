@@ -1,7 +1,7 @@
 import { Request, Response, Router, NextFunction } from 'express';
 import PostService from '@services/post.service';
 import Logger from '@utils/logger';
-import { authRequired, checkPayload } from '@middlewares/auth.middle';
+import authMiddleware from '@middlewares/auth.middle';
 
 const route = Router();
 
@@ -10,8 +10,7 @@ export default (app: Router): void => {
 
   route.post(
     '/',
-    authRequired,
-    checkPayload,
+    authMiddleware,
     (req: Request, res: Response, next: NextFunction) => {
       const { id: userId } = req.payload;
       const { title, message } = req.body;
@@ -30,8 +29,7 @@ export default (app: Router): void => {
 
   route.get(
     '/:postId',
-    authRequired,
-    checkPayload,
+    authMiddleware,
     async (req: Request, res: Response, next: NextFunction) => {
       const { postId: id } = req.params;
       const { id: userId } = req.payload;
@@ -57,8 +55,7 @@ export default (app: Router): void => {
 
   route.get(
     '/',
-    authRequired,
-    checkPayload,
+    authMiddleware,
     async (req: Request, res: Response, next: NextFunction) => {
       const { id: userId } = req.payload;
       const { search, limit, offset, orderBy, order } = req.query;
@@ -85,8 +82,7 @@ export default (app: Router): void => {
 
   route.put(
     '/:postId',
-    authRequired,
-    checkPayload,
+    authMiddleware,
     async (req: Request, res: Response, next: NextFunction) => {
       const { postId } = req.params;
       const { id: userId } = req.payload;
@@ -113,8 +109,7 @@ export default (app: Router): void => {
 
   route.delete(
     '/:postId',
-    authRequired,
-    checkPayload,
+    authMiddleware,
     async (req: Request, res: Response, next: NextFunction) => {
       const { postId } = req.params;
       const { id: userId } = req.payload;

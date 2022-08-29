@@ -9,3 +9,10 @@ declare namespace Express {
     };
   }
 }
+
+interface CommonError {
+  name: string;
+  message: string;
+  stack?: string;
+  status?: number;
+}

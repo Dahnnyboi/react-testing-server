@@ -105,9 +105,15 @@ export default (app: Application): void => {
   );
 
   app.use(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    (err: Error, req: Request, res: Response, next: NextFunction) => {
-      res.status(500);
+    (
+      err: Error & CommonError,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      req: Request,
+      res: Response,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      next: NextFunction,
+    ) => {
+      res.status(err.status || 500);
       res.json({
         message: err.message,
       });
