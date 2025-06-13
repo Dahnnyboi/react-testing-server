@@ -6,7 +6,7 @@ import express, {
 } from 'express';
 import compression from 'compression';
 import helmet from 'helmet';
-import rateLimit from 'express-rate-limit';
+// import rateLimit from 'express-rate-limit';
 import cookieParser from 'cookie-parser';
 import routes from '@routes';
 import { API_PREFIX } from '@configs/constants';
@@ -59,16 +59,16 @@ export default (app: Application): void => {
     ),
   );
 
-  const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 100,
-  });
+  // const limiter = rateLimit({
+  //   windowMs: 15 * 60 * 1000,
+  //   max: 100,
+  // });
 
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(compression());
   app.use(helmet());
-  app.use(limiter);
+  // app.use(limiter);
   app.use(cookieParser());
   app.use(passport.initialize());
   app.use(cors(corsOptions));
