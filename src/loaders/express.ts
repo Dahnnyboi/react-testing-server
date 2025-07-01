@@ -71,7 +71,7 @@ export default (app: Application): void => {
   // app.use(limiter);
   app.use(cookieParser());
   app.use(passport.initialize());
-  app.use(cors(corsOptions));
+  app.use(cors());
 
   app.use((req, res, next) => {
     res.header('Content-Type', 'application/json;charset=UTF-8');
