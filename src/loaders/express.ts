@@ -17,7 +17,7 @@ import Logger from '@utils/logger';
 import cors from 'cors';
 
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: '*',
   optionsSuccessStatus: 200,
   credentials: true,
 };
@@ -71,7 +71,7 @@ export default (app: Application): void => {
   // app.use(limiter);
   app.use(cookieParser());
   app.use(passport.initialize());
-  // app.use(cors(corsOptions));
+  app.use(cors(corsOptions));
 
   app.use((req, res, next) => {
     res.header('Content-Type', 'application/json;charset=UTF-8');
